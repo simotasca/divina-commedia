@@ -3,9 +3,15 @@ import Layout from "../layouts/Layout.astro";
 import { getAnalysis } from "../content";
 
 const analysis = await getAnalysis();
-const cantiche = Object.entries(analysis).filter(
-  ([_, content]) => content.length > 0
-);
+const cantiche = Object.entries(analysis)
+// .filter(
+//   ([_, content]) => content.length > 0
+// );
+const authorsMapper = new Map([
+  ["cm", "C.M."],
+  ["eh", "E.H."],
+  ["st", "S.T."],
+])
 ---
 
 <Layout>
@@ -21,6 +27,7 @@ const cantiche = Object.entries(analysis).filter(
               <a href={"#" + cantica} class="text-blue-800 uppercase">
                 {cantica}
               </a>
+              <span class="last:hidden text-neutral-700">|</span>
             ))
           }
         </div>
@@ -54,7 +61,7 @@ const cantiche = Object.entries(analysis).filter(
       </section>
     </div>
   </div>
-  <div class="max-w-screen-xl px-4 mx-auto py-8 md:px-8">
+  <div class="max-w-screen-lg px-4 mx-auto py-8 md:px-8">
     <div class="space-y-10">
       {
         cantiche.map(([cantica, content]) => (
@@ -64,38 +71,32 @@ const cantiche = Object.entries(analysis).filter(
             </h2>
             <ul class="space-y-6">
               {content.map((canto) => (
-                <li class="border bg-white shadow-md rounded-sm px-5 pt-3.5 pb-4">
+                <li class="border bg-white shadow-md rounded-sm px-5 py-4">
                   <h3 class="capitalize text-2xl">
                     {cantica} - Canto {canto.canto}
                   </h3>
                   <p class="text-sm text-neutral-500 leading-none -mt-0.5 mb-3 pl-0.5">
                     incontro: {canto.date.format()}
                   </p>
-                  <ul class="space-y-2 pl-8 *:leading-tight *:relative *:before:absolute *:before:top-2 *:before:-left-4 *:before:block *:before:size-1.5 *:before:rounded-full *:before:bg-neutral-900">
-                    {canto.sintesi && (
-                      <li>
-                        <b>sintesi:</b> {canto.sintesi}
-                      </li>
-                    )}
-                    <li>
-                      <div class="inline-block">
-                        <b>analisi individuali:</b>
-                        <ul class="inline-flex gap-2 pl-1">
-                          {canto.authors.map((author) => (
-                            <li class="after:pl-1 after:opacity-50 after:[content:'|'] last:after:hidden">
-                              <a
-                                class="text-blue-700"
-                                href={author.filePath}
-                                target="_blank"
-                              >
-                                {author.name.toUpperCase()}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </li>
-                  </ul>
+                  {canto.sintesi && <p class="mb-3 max-w-screen-lg text-neutral-800">{canto.sintesi}</p>}
+                  {!!canto.authors.length && (
+                    <div class="inline-block">
+                      <b class="font-medium">analisi individuali:</b>
+                      <ul class="inline-flex gap-2 pl-1">
+                        {canto.authors.map((author) => (
+                          <li class="after:pl-1 after:opacity-50 after:[content:'|'] last:after:hidden">
+                            <a
+                              class="text-blue-700"
+                              href={author.filePath}
+                              target="_blank"
+                            >
+                              {authorsMapper.get(author.name) || author.name.toUpperCase()}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
