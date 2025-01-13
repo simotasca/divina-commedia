@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFile } from "fs/promises";
 import { glob } from "glob";
 
 type Cantica = "inferno" | "purgatorio" | "paradiso";
@@ -18,28 +18,24 @@ export async function getAnalysis(filters?: Partial<AnalysisDocument>) {
   const urls = await glob(pattern).then(paths => 
     paths.map((path) => path.replace(/^public/, ""))
   );
-  console.log(urls)
-  const meta = urls.reduce((result, path) => {
+  const meta: Record<Cantica, AnalysisData[]> = { inferno: [], purgatorio: [], paradiso: [] };
+  for (const path of urls) {
     const parsed = parseFilePath(path);
     if (parsed) {
-      let cantoEntry = result[parsed.cantica].find((entry) => entry.canto === parsed.canto);
+      let cantoEntry = meta[parsed.cantica].find((entry) => entry.canto === parsed.canto);
       if (!cantoEntry) {
         cantoEntry = { canto: parsed.canto, date: parsed.date, sintesi: null, authors: [] };
-        result[parsed.cantica].push(cantoEntry);
-        if (parsed.author === "sintesi") {
-          cantoEntry.sintesi = readFileSync("public" + path).toString();
-          return result;
-        }
+        meta[parsed.cantica].push(cantoEntry);
       }
-      cantoEntry.authors.push({ name: parsed.author, filePath: path });
+      if (parsed.author === "sintesi") {
+        cantoEntry.sintesi = (await readFile("public" + path)).toString().trim() || null;
+      } else {
+        cantoEntry.authors.push({ name: parsed.author, filePath: path });
+      }
     }
-    return result;
-  }, { inferno: [], purgatorio: [], paradiso: [] } as Record<Cantica, AnalysisData[]>);
+  }
   return Object.fromEntries(
-    Object.entries(meta).map(([cantica, analisi]) => [
-      cantica,
-      Sorting.sortMeta(analisi),
-    ])
+    Object.entries(meta).map(([cantica, analisi]) => ([cantica, Sorting.sortMeta(analisi)]))
   ) as Record<Cantica, AnalysisData[]>;
 }
 
