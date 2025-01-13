@@ -6,11 +6,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "fonts": "npx generate-fonts ./public/fonts ./src/styles /"
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.1.4",
     "astro": "^5.1.1",
+    "generate-fonts": "github:simotasca/generate-fonts",
     "glob": "^11.0.0",
     "tailwindcss": "^3.4.17"
   },

@@ -1,0 +1,97 @@
+
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-ThinItalic.ttf");
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-Thin.ttf");
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-SemiBoldItalic.ttf");
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-SemiBold.ttf");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-MediumItalic.ttf");
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-Medium.ttf");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-LightItalic.ttf");
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-Light.ttf");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-Italic.ttf");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-ExtraLightItalic.ttf");
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-ExtraLight.ttf");
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-ExtraBoldItalic.ttf");
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-ExtraBold.ttf");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-BoldItalic.ttf");
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-Bold.ttf");
+  font-weight: 700;
+  font-style: normal;
+}
