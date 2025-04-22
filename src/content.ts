@@ -1,12 +1,13 @@
 import { readFile } from "fs/promises";
 import { glob } from "glob";
+import { marked } from "marked";
 
 type Cantica = "inferno" | "purgatorio" | "paradiso";
 type AnalysisDocument = { cantica: Cantica; canto: string; author: string, date: Date };
 type AnalysisData = { canto: string; date: Date; sintesi: string | null; authors: { name: string; filePath: string }[] };
 
-export function getFilePath(doc: AnalysisDocument) {
-  return `/analisi/${doc.cantica}/canto-${doc.canto}/${doc.author}.pdf`;
+export function getFilePath(doc: Omit<AnalysisDocument, "date">) {
+  return `/analisi/${doc.cantica}/canto-${doc.canto}/*/${doc.author}.pdf`;
 }
 
 export async function getAnalysis(filters?: Partial<AnalysisDocument>) {
@@ -14,7 +15,7 @@ export async function getAnalysis(filters?: Partial<AnalysisDocument>) {
     (filters?.cantica || "*") + "/" +
     (filters?.canto || "*") + "/" +
     "*/" +
-    "{" + (filters?.author || "*") + ".pdf,sintesi.txt}";
+    "{" + (filters?.author || "*") + ".pdf,sintesi.md}";
   const urls = await glob(pattern).then(paths => 
     paths.map((path) => path.replace(/^public/, ""))
   );
@@ -28,7 +29,7 @@ export async function getAnalysis(filters?: Partial<AnalysisDocument>) {
         meta[parsed.cantica].push(cantoEntry);
       }
       if (parsed.author === "sintesi") {
-        cantoEntry.sintesi = (await readFile("public" + path)).toString().trim() || null;
+        cantoEntry.sintesi = (await marked.parse((await readFile("public" + path)).toString())) || null;
       } else {
         cantoEntry.authors.push({ name: parsed.author, filePath: path });
       }
@@ -40,15 +41,25 @@ export async function getAnalysis(filters?: Partial<AnalysisDocument>) {
 }
 
 function parseFilePath(filePath: string): AnalysisDocument | null {
-  const regex = /^\/analisi\/(inferno|purgatorio|paradiso)\/canto-([IVXLCDM]+)\/(\d{4}-\d{2}-\d{2})\/(sintesi\.txt|[^/]+\.pdf)$/;
+  const regex = /^\/analisi\/(inferno|purgatorio|paradiso)\/canto-([IVXLCDM]+)\/(\d{4}-\d{2}-\d{2})\/(sintesi\.md|[^/]+\.pdf)$/;
   const match = filePath.match(regex);
   if (match) {
     const [, cantica, canto, dateStr, author] = match;
     const date = new Date(dateStr);
     if (isNaN(date.getTime())) return null;
-    return { cantica: cantica as Cantica, canto, date, author: author.slice(0, -4) };
+    return { cantica: cantica as Cantica, canto, date, author: author.slice(0, author.lastIndexOf(".")) };
   }
   return null; // no match
+}
+
+const authorsMapper = new Map([
+  ["cm", "C.M."],
+  ["eh", "E.H."],
+  ["st", "S.T."],
+]);
+
+export function authorName(name: string) {
+  return authorsMapper.get(name) || name.toUpperCase();
 }
 
 namespace Sorting {

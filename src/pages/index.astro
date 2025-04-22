@@ -1,17 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getAnalysis } from "../content";
+import { getAnalysis, authorName } from "../content";
 
 const analysis = await getAnalysis();
-const cantiche = Object.entries(analysis)
+const cantiche = Object.entries(analysis);
 // .filter(
 //   ([_, content]) => content.length > 0
 // );
-const authorsMapper = new Map([
-  ["cm", "C.M."],
-  ["eh", "E.H."],
-  ["st", "S.T."],
-])
 ---
 
 <Layout>
@@ -78,7 +73,7 @@ const authorsMapper = new Map([
                   <p class="text-sm text-neutral-500 leading-none -mt-0.5 mb-3 pl-0.5">
                     incontro: {canto.date.format()}
                   </p>
-                  {canto.sintesi && <p class="mb-3 max-w-screen-lg text-neutral-800">{canto.sintesi}</p>}
+                  {canto.sintesi && <div set:html={canto.sintesi} class="mb-3 max-w-screen-lg text-neutral-800"></div>}
                   {!!canto.authors.length && (
                     <div class="inline-block">
                       <b class="font-medium">analisi individuali:</b>
@@ -90,7 +85,7 @@ const authorsMapper = new Map([
                               href={author.filePath}
                               target="_blank"
                             >
-                              {authorsMapper.get(author.name) || author.name.toUpperCase()}
+                              {authorName(author.name)}
                             </a>
                           </li>
                         ))}
