@@ -1,0 +1,48 @@
+---
+import { cantiche } from "../../content.config";
+---
+
+<div class="grid place-content-center min-h-full">
+  <div class="max-w-screen-lg px-4 text-justify md:px-8 mt-20 mb-40">
+    <main>
+      <p class="mb-2 uppercase text-neutral-600">Analisi di Gruppo:</p>
+      <h1 class="text-3xl font-bold">Divina Commedia</h1>
+      <p class="text-xl">Dante Alighieri</p>
+      <div class="flex flex-wrap max-sm:flex-col gap-x-8 mt-3">
+        {
+          cantiche.map((cantica) => (
+            <a href={"#" + cantica} class="text-blue-800 uppercase">
+              {cantica}
+            </a>
+          ))
+        }
+      </div>
+    </main>
+    <br />
+    <section>
+      <p>
+        Questo sito raccoglie il lavoro di analisi di gruppo sulla
+        <i>Divina Commedia</i> realizzato da tre partecipanti (CM, EH e ST). Ogni
+        settimana, un canto è stato analizzato individualmente per essere poi discusso
+        insieme, creando una sintesi che riflette il confronto e la collaborazione
+        del gruppo.
+      </p>
+      <br />
+      <p>
+        L'obiettivo di questo lavoro è mostrare come la creatività individuale
+        affondi le sue radici nella vita soggettiva di gruppo. Sebbene il
+        soggetto venga solitamente visto come parziale, un lavoro realmente
+        creativo svolto con onestà porta al riconoscimento una verità che è tale
+        secondo il criterio della necessità, e che perciò deve essere ritenuta
+        indipendente dal soggetto che vi entra in contatto. Ogni partecipante
+        contribuisce dunque con una verità colorata della sua qualità
+        individuale esprimendola sottoforma di un bagaglio di esperienze ed
+        informazioni differenti e uniche, arricchendosi e arricchendo il gruppo
+        attraverso il confronto, promuovendo lo sviluppo di un crescente
+        discernimento del'unica realtà soggettiva, per mezzo della rinuncia alla
+        propria visione particolare (identificata con l'esperienza) a favore
+        della comprezione reciproca e dell'integrazione di gruppo.
+      </p>
+    </section>
+  </div>
+</div>

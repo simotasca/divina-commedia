@@ -9,6 +9,9 @@ export default {
       fontFamily: {
         sans: ['"UbuntuSans"', ...defaultTheme.fontFamily.sans],
       },
+      screens: {
+        xs: "480px"
+      }
     },
   },
   plugins: [
