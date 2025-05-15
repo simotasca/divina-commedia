@@ -25,4 +25,8 @@ const analisiCanti = defineCollection({
   }),
 });
 
-export const collections = { analisiCanti };
+const commento = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/commento" }),
+});
+
+export const collections = { analisiCanti, commento };
